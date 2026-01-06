@@ -42,6 +42,15 @@ def create_app(config_class=Config):
     from app.reports import bp as reports_bp
     app.register_blueprint(reports_bp, url_prefix='/reports')
 
+    @app.route('/fix-db')
+    def fix_db():
+        from app import db
+        try:
+            db.create_all()
+            return "<h1>Erfolg! Datenbank-Tabellen wurden erstellt.</h1><a href='/'>Zur Startseite</a>"
+        except Exception as e:
+            return f"<h1>Fehler: {e}</h1>"
+
     
     return app
 
