@@ -1,10 +1,10 @@
 from app import create_app, db
 from flask_migrate import upgrade
+from app.models import User, Expense
 
 app = create_app()
 
-# TRICK: Wir zwingen die App, die Datenbank beim Start zu aktualisieren
-# Das passiert jetzt automatisch jedes Mal, wenn der Server startet.
+
 with app.app_context():
     try:
         upgrade()
