@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <h2>{{ title }}</h2>
+        <div class="card p-4">
+            <form action="" method="post">
+                {{ form.hidden_tag() }}
+                
+                <div class="mb-3">
+                    {{ form.amount.label(class="form-label") }}
+                    <div class="input-group">
+                        {{ form.amount(class="form-control", step="0.01", type="number") }}
+                        <span class="input-group-text">€</span>
+                    </div>
+                    {% for error in form.amount.errors %}
+                    <span class="text-danger">{{ error }}</span>
+                    {% endfor %}
+                </div>
+
+                <div class="mb-3">
+                    {{ form.category.label(class="form-label") }}
+                    {{ form.category(class="form-select") }}
+                    {% for error in form.category.errors %}
+                    <span class="text-danger">{{ error }}</span>
+                    {% endfor %}
+                    <div class="form-text">
+                        Fehlt eine Kategorie? <a href="{{ url_for('categories.new') }}">Hier erstellen</a>.
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    {{ form.date.label(class="form-label") }}
+                    {{ form.date(class="form-control", type="date") }}
+                    {% for error in form.date.errors %}
+                    <span class="text-danger">{{ error }}</span>
+                    {% endfor %}
+                </div>
+
+                <div class="mb-3">
+                    {{ form.note.label(class="form-label") }}
+                    {{ form.note(class="form-control") }}
+                </div>
+
+                <div class="d-flex justify-content-between">
+                    <a href="{{ url_for('expenses.index') }}" class="btn btn-secondary">Abbrechen</a>
+                    {{ form.submit(class="btn btn-primary") }}
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
