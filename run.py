@@ -1,6 +1,23 @@
 from app import create_app, db
+from flask_migrate import upgrade
 
 app = create_app()
+
+# TRICK: Wir zwingen die App, die Datenbank beim Start zu aktualisieren
+# Das passiert jetzt automatisch jedes Mal, wenn der Server startet.
+with app.app_context():
+    try:
+        upgrade()
+        print("Datenbank-Upgrade erfolgreich durchgeführt!")
+    except Exception as e:
+        print(f"Fehler beim Datenbank-Upgrade: {e}")
+        # Falls upgrade fehlschlägt (z.B. weil migrations fehlen),
+        # versuchen wir create_all als Notlösung (nur für erste Erstellung)
+        try:
+            db.create_all()
+            print("Tabellen via create_all erstellt.")
+        except Exception as e2:
+            print(f"Kritischer Datenbank-Fehler: {e2}")
 
 if __name__ == '__main__':
     app.run(debug=True)
