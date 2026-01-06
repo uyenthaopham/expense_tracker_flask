@@ -1,27 +1,28 @@
 from flask import Flask
 from config import Config
 from app.extensions import db, migrate, login_manager, csrf
+from sqlalchemy import text  # <--- Quan trọng: Để chạy lệnh SQL trực tiếp
 
 def create_app(config_class=Config):
     app = Flask(__name__)
     app.config.from_object(config_class)
 
-    # Initialisiere Erweiterungen
+    # Khởi tạo
     db.init_app(app)
     migrate.init_app(app, db)
     login_manager.init_app(app)
     csrf.init_app(app)
     
-    # Route cơ bản
+    # Route trang chủ
     @app.route('/')
     def index():
         from flask import render_template
         return render_template('base.html')
 
-    # Importiere Modelle, damit Flask-Migrate sie erkennt
+    # Import models
     from app import models
    
-    # --- Đăng ký Blueprints ---
+    # Blueprints
     from app.auth import bp as auth_bp
     app.register_blueprint(auth_bp, url_prefix='/auth')
 
@@ -34,18 +35,31 @@ def create_app(config_class=Config):
     from app.reports import bp as reports_bp
     app.register_blueprint(reports_bp, url_prefix='/reports')
 
-    # --- ROUTE SỬA LỖI DATABASE (Debug) ---
-    @app.route('/debug-db')
-    def debug_db():
+    # --- ĐOẠN CODE "BÚA TẠ" (SQL TRỰC TIẾP) ---
+    @app.route('/force-fix')
+    def force_fix():
         try:
-            # 1. XÓA SẠCH DATABASE CŨ
-            db.drop_all()
+            # Chúng ta dùng SQL để ép Database mở rộng cột password lên 512 ký tự
+            # Bất kể models.py viết gì, lệnh này sẽ ghi đè lên Database thực tế.
+            with db.engine.connect() as conn:
+                # Lệnh dành cho PostgreSQL
+                conn.execute(text('ALTER TABLE "user" ALTER COLUMN password_hash TYPE VARCHAR(512);'))
+                conn.commit()
             
-            # 2. TẠO LẠI DATABASE MỚI (Với cột password 256 ký tự)
-            db.create_all()
-            
-            return "<h1>Đã Reset Database thành công!</h1><p>Cột password đã được mở rộng. Hãy về trang chủ đăng ký lại.</p><a href='/'>Về trang chủ</a>"
+            return """
+            <div style="text-align: center; margin-top: 50px; font-family: sans-serif;">
+                <h1 style="color: green;">✅ THÀNH CÔNG RỰC RỠ!</h1>
+                <p>Tôi đã ép Database mở rộng cột mật khẩu lên <b>512 ký tự</b>.</p>
+                <p>Bây giờ bạn có thể đăng ký thoải mái.</p>
+                <br>
+                <a href="/" style="background: blue; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">Về trang chủ và Đăng ký ngay</a>
+            </div>
+            """
         except Exception as e:
-            return f"<h1>Lỗi: {e}</h1>"
+            return f"""
+            <h1 style="color: red;">Vẫn có lỗi:</h1>
+            <p>{str(e)}</p>
+            <p>Nếu lỗi báo "relation user does not exist", nghĩa là bảng chưa được tạo. Hãy chạy lại lệnh cũ trước.</p>
+            """
 
     return app
