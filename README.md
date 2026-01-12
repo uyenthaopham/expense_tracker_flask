@@ -3,7 +3,9 @@ Expense Tracker – Personal Finance Management
 A full-stack web application that helps users track expenses, manage budgets, and visualize financial reports in an intuitive way.
 
 🔗 Live Demo: https://expense-tracker-s9lb.onrender.com/
-<img width="1900" height="858" alt="image" src="https://github.com/user-attachments/assets/251e7e16-be4e-4ce6-80c1-15a465b27033" />
+
+
+<img width="1913" height="582" alt="image" src="https://github.com/user-attachments/assets/52377596-57d2-4353-ac94-b4aea889bd43" />
 
 
 🛠 Technologies Used
@@ -30,8 +32,18 @@ Testing: Pytest
 
 📥 Data Export: Export expense data to Excel/CSV files
 
-<img width="1775" height="877" alt="image" src="https://github.com/user-attachments/assets/b801bd03-14e0-48f8-a0c9-6881504faea6" />
+<img width="1913" height="582" alt="image" src="https://github.com/user-attachments/assets/a2ab9842-e8f7-4b0c-bc1c-ac9230e3c30e" />
 <img width="1590" height="743" alt="image" src="https://github.com/user-attachments/assets/1c687c28-63b7-4375-a7e2-b708ad471560" />
+<img width="1913" height="699" alt="image" src="https://github.com/user-attachments/assets/d77072ea-fc60-4413-bf9b-a60fdd1181e4" />
+
+📘 What I Learned
+
+Through this project, I gained extensive hands-on experience with real-world software development. I developed a much clearer understanding of the overall structure of a web application, including how different components and files communicate with each other and work together as a system.
+
+I learned to think more logically and systematically when designing features, structuring code, and debugging issues. This project helped me bridge the gap between theoretical programming knowledge and practical application, applying concepts in a real-life context rather than isolated exercises.
+
+Most importantly, this project motivated me to continue learning and improving. I do not plan to stop here — in the future, I aim to extend the application with more intelligent features such as spending recommendations, automatic expense categorization using rule-based or AI-assisted logic, and enhanced analytics to identify high-spending months and trends. While implementing these features will require significant time and effort, I see this as an exciting opportunity to further deepen my technical skills.
+
 
 
 
