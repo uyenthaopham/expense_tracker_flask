@@ -14,7 +14,7 @@ class RegistrationForm(FlaskForm):
     confirm_password = PasswordField('Passwort wiederholen', validators=[DataRequired(), EqualTo('password')])
     submit = SubmitField('Registrieren')
 
-    # Automatische Prüfung: Gibt es die Email schon?
+    
     def validate_email(self, email):
         user = User.query.filter_by(email=email.data).first()
         if user is not None:

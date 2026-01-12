@@ -47,7 +47,6 @@ def edit(id):
     expense = Expense.query.filter_by(id=id, user_id=current_user.id).first_or_404()
     form = ExpenseForm(obj=expense)
     
-    # Auch beim Bearbeiten müssen die Kategorien geladen werden
     form.category.choices = [(c.id, c.name) for c in Category.query.filter_by(user_id=current_user.id).all()]
     
     # Beim ersten Laden (GET) die ID der aktuellen Kategorie setzen
@@ -82,7 +81,7 @@ def export():
 
     # 2. CSV im Arbeitsspeicher erstellen (StringIO ist wie eine Datei im RAM)
     si = io.StringIO()
-    cw = csv.writer(si, delimiter=';') # Excel in Deutschland mag oft Strichpunkte
+    cw = csv.writer(si, delimiter=';') 
     
     # Header schreiben
     cw.writerow(['Datum', 'Kategorie', 'Betrag', 'Währung', 'Notiz'])
@@ -94,7 +93,7 @@ def export():
         cw.writerow([
             expense.date.strftime('%d.%m.%Y'),
             category_name,
-            str(expense.amount).replace('.', ','), # Deutsche Kommas für Zahlen
+            str(expense.amount).replace('.', ','), 
             expense.currency,
             expense.note
         ])
