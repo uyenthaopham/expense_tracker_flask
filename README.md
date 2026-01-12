@@ -5,6 +5,7 @@ A full-stack web application that helps users track expenses, manage budgets, an
 🔗 Live Demo: https://expense-tracker-s9lb.onrender.com/
 
 
+
 <img width="1913" height="582" alt="image" src="https://github.com/user-attachments/assets/52377596-57d2-4353-ac94-b4aea889bd43" />
 
 
@@ -19,6 +20,7 @@ Frontend: HTML5, Bootstrap 5, Jinja2, Chart.js
 Deployment: Render Cloud, Gunicorn
 
 Testing: Pytest
+
 
 ✨ Key Features
 
@@ -35,6 +37,7 @@ Testing: Pytest
 <img width="1913" height="582" alt="image" src="https://github.com/user-attachments/assets/a2ab9842-e8f7-4b0c-bc1c-ac9230e3c30e" />
 <img width="1590" height="743" alt="image" src="https://github.com/user-attachments/assets/1c687c28-63b7-4375-a7e2-b708ad471560" />
 <img width="1913" height="699" alt="image" src="https://github.com/user-attachments/assets/d77072ea-fc60-4413-bf9b-a60fdd1181e4" />
+
 
 📘 What I Learned
 
