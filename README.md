@@ -36,16 +36,17 @@ Testing: Pytest
 
 <img width="1913" height="582" alt="image" src="https://github.com/user-attachments/assets/a2ab9842-e8f7-4b0c-bc1c-ac9230e3c30e" />
 <img width="1590" height="743" alt="image" src="https://github.com/user-attachments/assets/1c687c28-63b7-4375-a7e2-b708ad471560" />
-<img width="1913" height="699" alt="image" src="https://github.com/user-attachments/assets/d77072ea-fc60-4413-bf9b-a60fdd1181e4" />
+<img width="1913" height="699" alt="image" src="https://github.com/user-attachments/assets/e2cb309c-2c8e-4482-8a3d-618866747231" />
+
 
 
 📘 What I Learned
 
-Through this project, I gained extensive hands-on experience with real-world software development. I developed a much clearer understanding of the overall structure of a web application, including how different components and files communicate with each other and work together as a system.
+Through this project, I gained so much hands-on experience with real-world software development. I developed a much clearer understanding of the overall structure of a web application, including how different components and files communicate with each other and work together as a system.
 
-I learned to think more logically and systematically when designing features, structuring code, and debugging issues. This project helped me bridge the gap between theoretical programming knowledge and practical application, applying concepts in a real-life context rather than isolated exercises.
+I learned to think more logically and systematically when designing features, structuring code, and debugging issues. This project helped me bridge the gap between theoretical programming knowledge and practical application, applying concepts in a real-life context rather than normal exercises.
 
-Most importantly, this project motivated me to continue learning and improving. I do not plan to stop here — in the future, I aim to extend the application with more intelligent features such as spending recommendations, automatic expense categorization using rule-based or AI-assisted logic, and enhanced analytics to identify high-spending months and trends. While implementing these features will require significant time and effort, I see this as an exciting opportunity to further deepen my technical skills.
+Most importantly, this project motivated me to continue learning and improving. I do not plan to stop here. In the future, I want to extend the application with more intelligent features such as an AI-powered chatbot that provides intelligent spending recommendations, automatic expense categorization using rule-based or AI-assisted logic, and enhanced analytics to identify high-spending months and trends. I know learning and implementing these features will require significant time and effort, but I think this as an exciting chance to further deepen my technical skills.
 
 
 
