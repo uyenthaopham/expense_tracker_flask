@@ -42,11 +42,10 @@ Testing: Pytest
 
 📘 What I Learned
 
-Through this project, I gained so much hands-on experience with real world software development. I developed a much clearer understanding of the overall structure of a web application, including how different components and files communicate with each other and work together as a system.
+I made this web application because I wanted to learn more about databases and authentication, which was helpful and interesting at the same time.
 
-I learned to think more logically and systematically when designing features, structuring code, and debugging. This project helped me bridge the gap between theoretical programming knowledge and practical application, applying in real life rather than normal exercises.
+I learned to think more logically and systematically when designing features, structuring code, and debugging. This project helped me bridge the gap between theoretical programming knowledge and practical application, applying it in real life rather than just through normal exercises
 
-Most importantly, this project encouraged me to continue learning and improving. Of course I will not plan to stop here. In the future, I want to extend the application with more intelligent features such as an AI-powered chatbot that provides intelligent spending recommendations, automatic expense categorization using rule-based or AI assisted logic, and enhanced analytics to identify high-spending months and trends. I know learning and implementing these features will require significant time and effort, but I think this will be an exciting chance for me to further deepen my technical skills.
 
 
 
