@@ -1,43 +1,119 @@
+"""
+conftest.py – Shared pytest fixtures for the Expense Tracker test suite.
+
+All tests run against an in-memory SQLite database so they are
+self-contained, fast, and never touch a real database.
+"""
+
 import pytest
-from app import create_app, db
-from app.models import User
-from config import Config
+from app import create_app, db as _db
+from app.models import User, Expense, Category
 
-# Wir bauen eine Test-Konfiguration
-class TestConfig(Config):
-    TESTING = True
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///:memory:' # Datenbank nur im RAM (schnell & wegwerfbar)
-    WTF_CSRF_ENABLED = False # CSRF im Test ausschalten, macht es viel einfacher
 
-@pytest.fixture(scope='module')
-def test_client():
-    # 1. App erstellen
-    flask_app = create_app(TestConfig)
+# ---------------------------------------------------------------------------
+# App & DB fixtures
+# ---------------------------------------------------------------------------
 
-    # 2. Test-Client erstellen (wie ein Fake-Browser)
-    testing_client = flask_app.test_client()
+@pytest.fixture(scope="session")
+def app():
+    """Create a Flask application configured for testing (session-scoped)."""
+    test_config = {
+        "TESTING": True,
+        "SQLALCHEMY_DATABASE_URI": "sqlite:///:memory:",
+        "SQLALCHEMY_TRACK_MODIFICATIONS": False,
+        "WTF_CSRF_ENABLED": False,          # Disable CSRF for API tests
+        "SECRET_KEY": "test-secret-key",
+        "LOGIN_DISABLED": False,
+    }
+    application = create_app(test_config)
+    return application
 
-    # 3. App-Kontext und Datenbank aufbauen
-    ctx = flask_app.app_context()
-    ctx.push()
-    
-    db.create_all() # Tabellen erstellen
 
-    yield testing_client  # Hier läuft der eigentliche Test
+@pytest.fixture(scope="function")
+def db(app):
+    """
+    Provide a fresh database for every single test function.
+    Tables are created before each test and dropped afterwards.
+    """
+    with app.app_context():
+        _db.create_all()
+        yield _db
+        _db.session.remove()
+        _db.drop_all()
 
-    # 4. Aufräumen nach dem Test
-    db.session.remove()
-    db.drop_all()
-    ctx.pop()
 
-@pytest.fixture(scope='module')
-def init_database(test_client):
-    # Erstelle einen Test-User
-    user = User(email='test@example.com')
-    user.set_password('password123')
-    db.session.add(user)
-    db.session.commit()
-    
-    yield db  # Datenbank für Tests bereitstellen
+@pytest.fixture(scope="function")
+def client(app, db):
+    """Flask test client – each test gets a clean HTTP client + empty DB."""
+    return app.test_client()
 
-    db.session.remove()
+
+# ---------------------------------------------------------------------------
+# User helpers
+# ---------------------------------------------------------------------------
+
+@pytest.fixture()
+def test_user(db, app):
+    """Create and persist a standard test user."""
+    with app.app_context():
+        user = User(username="testuser", email="test@example.com")
+        user.set_password("SecurePass123!")
+        db.session.add(user)
+        db.session.commit()
+        db.session.refresh(user)
+        return {"id": user.id, "email": user.email, "password": "SecurePass123!"}
+
+
+@pytest.fixture()
+def second_user(db, app):
+    """Create a second user for isolation / cross-user access tests."""
+    with app.app_context():
+        user = User(username="otheruser", email="other@example.com")
+        user.set_password("OtherPass456!")
+        db.session.add(user)
+        db.session.commit()
+        db.session.refresh(user)
+        return {"id": user.id, "email": user.email, "password": "OtherPass456!"}
+
+
+@pytest.fixture()
+def auth_client(client, test_user):
+    """Return a test client that is already logged in as test_user."""
+    client.post(
+        "/auth/login",
+        data={"email": test_user["email"], "password": test_user["password"]},
+        follow_redirects=True,
+    )
+    return client
+
+
+# ---------------------------------------------------------------------------
+# Data helpers
+# ---------------------------------------------------------------------------
+
+@pytest.fixture()
+def test_category(db, app, test_user):
+    """Create a default expense category owned by test_user."""
+    with app.app_context():
+        cat = Category(name="Food", user_id=test_user["id"])
+        db.session.add(cat)
+        db.session.commit()
+        db.session.refresh(cat)
+        return {"id": cat.id, "name": cat.name}
+
+
+@pytest.fixture()
+def test_expense(db, app, test_user, test_category):
+    """Create a default expense for test_user."""
+    with app.app_context():
+        expense = Expense(
+            title="Lunch",
+            amount=12.50,
+            category_id=test_category["id"],
+            user_id=test_user["id"],
+            description="Team lunch",
+        )
+        db.session.add(expense)
+        db.session.commit()
+        db.session.refresh(expense)
+        return {"id": expense.id, "title": expense.title, "amount": expense.amount}
