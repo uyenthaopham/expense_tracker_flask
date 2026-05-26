@@ -51,6 +51,10 @@ class Expense(db.Model):
     category = db.relationship('Category', backref='expenses')
     user = db.relationship('User', backref='expenses')
 
+    __table_args__ = (
+    db.Index('ix_expense_user_date', 'user_id', 'date'),
+)
+
     def __repr__(self):
         return f'<Expense {self.amount} - {self.note}>'
 
